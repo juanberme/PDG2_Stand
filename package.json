@@ -2,7 +2,7 @@
   "name": "pdg2_stand",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://juanberme.github.io/react-github-pages/build",
+  "homepage": "https://juanberme.github.io/PDG2_Stand/",
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
