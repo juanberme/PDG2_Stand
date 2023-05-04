@@ -147,14 +147,14 @@ directionalLight.position.set(1,2,0);
 
  const clock = new THREE.Clock();
 const animate = () => {
-    //const elapsedTime = clock.getElapsedTime();
+    const elapsedTime = clock.getElapsedTime();
     //cube.rotation.y = elapsedTime;
     //cube.rotation.x = elapsedTime;
     //cube.position.y = Math.cos(elapsedTime);
 
-    /*sphere.rotation.y = elapsedTime;
+    sphere.rotation.y = elapsedTime;
     sphere.rotation.x = elapsedTime;
-     sphere.rotation.y = Math.cos(elapsedTime);*/
+    sphere.rotation.y = Math.cos(elapsedTime);
 
 
     controls.update();
