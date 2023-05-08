@@ -2,6 +2,15 @@ import * as THREE from 'three';
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import * as dat from 'dat.gui';
 
+import vertexShader from '../shaders/vertex.glsl.js';
+import fragmentShader from '../shaders/fragment.glsl.js';
+import vertexPars from '../shaders/verterx_pars.glsl.js';
+import vertexMain from '../shaders/vertex_main.glsl.js'
+
+import fragmentMain from '../shaders/fragment_main.glsl.js';
+//import fragmentPars from '../shaders/fragment_pars.glsl.js';
+
+//import colorfulTexture from '../images/image.jpg';
 
 let currentRef = null;
 const gui = new dat.GUI();
@@ -37,8 +46,8 @@ window.addEventListener('resize', resize);
 
 
 //para cargar la textura
-const textureLoader = new THREE.TextureLoader();
-const texturaPrueba = textureLoader.load('./textures/prueba.png');
+//const textureLoader = new THREE.TextureLoader();
+//const texturaPrueba = textureLoader.load('./textures/prueba.png');
 
 //para crear un cubo
 /*const geometry = new THREE.BoxGeometry( 1, 1, 1 );
@@ -50,13 +59,18 @@ scene.add(cube);*/
 //crear un plano
 
 //modificar el material del plano
-const planeMaterial = new THREE.ShaderMaterial({
+/*const planeMaterial = new THREE.ShaderMaterial({
+    vertexShader: `
+        void main(){
+            gl_Position = projectionMatriz * modelViewMatrix * vec4(position, 1);
+        }
+    `,
     fragmentShader: `
         void main(){
-            gl_FragColor = vec4(1.0, 0.0, 1.0, 1.0);
+            gl_FragColor = vec4(0.0, 1.0, 0.0, 1.0);
         }
     `
-});
+});*/
 
 /*const planeGeometry = new THREE.PlaneGeometry(1, 2);
 const plane = new THREE.Mesh(planeGeometry, planeMaterial);
@@ -64,12 +78,41 @@ const plane = new THREE.Mesh(planeGeometry, planeMaterial);
 scene.add(plane);*/
 
 //crear una icosphere
-/*const geometry = new THREE.IcosahedronGeometry(1,5);
-const material = new THREE.ShaderMaterial();
-const ico = new THREE.Mesh(geometry, material);
-scene.add(ico);*/
+//const geometry = new THREE.IcosahedronGeometry(1,5);
+const geometry = new THREE.IcosahedronGeometry(1, 100);
+const material = new THREE.ShaderMaterial({
+    vertexShader: vertexShader,
+    fragmentShader: fragmentShader
+});
+//const material = new THREE.MeshStandardMaterial({
+    //onBeforeCompile: (shader) => {
+        //guardando una referencia de los shaders
+        //material.userData.shader = shader;
+        //const parsVertexString = /* glsl */ `#include <displacementmap_pars_vertex>`
+        //const mainVertexString = /* glsl */ `#include <displacementmap_vertex>`
+        //shader.vertexShader = shader.vertexShader.replace(parsVertexString, parsVertexString + vertexPars);
+        //shader.vertexShader = shader.vertexShader.replace(mainVertexString, mainVertexString + vertexMain);
+        //console.log(shader.vertexShader);
 
-/*onst spheres = [];
+        //const mainFragmentString = /* glsl */ `#include <normal_fragment_maps>`
+        //const parsFragmentString = /* glsl */ `#include <bumpmap_pars_fragment>`
+        //shader.fragmentShader = shader.fragmentShader.replace(parsFragmentString, parsFragmentString + fragmentPars);
+        //shader.fragmentShader = shader.fragmentShader.replace(mainFragmentString, mainFragmentString + fragmentMain);
+        //console.log(shader.fragmentShader);
+    //}
+//});
+const ico = new THREE.Mesh(geometry, material);
+scene.add(ico);
+
+//material.userData.shader.uniforms.uTime = {value: 0}
+//material.uniforms.uRadius = {value: 0.5}
+//material.uniforms.uDisplacement = {value: 3.0}
+//material.uniforms.uTexture = {value: new THREE.TextureLoader().load(colorfulTexture)}
+
+//gui.add(material.uniforms.uDisplacement, "value").min(1.0).max(10.0);
+//gui.add(material.uniforms.uRadius, "value").min(0).max(1);
+
+/*const spheres = [];
 
 const userCollection = collection(db, "users");
 onSnapshot(userCollection, (querySnapshot) => {
@@ -93,7 +136,7 @@ onSnapshot(userCollection, (querySnapshot) => {
 
 
 //para crear una esfera
-const sphereGeometry = new THREE.SphereGeometry( 0.8, 32, 16 );
+/*const sphereGeometry = new THREE.SphereGeometry( 0.8, 32, 16 );
 const sphereMaterial = new THREE.MeshPhongMaterial({color: 0x7f3b16});
 const sphere = new THREE.Mesh( sphereGeometry, sphereMaterial );
 //sphere.position.x = 2;
@@ -120,7 +163,7 @@ const sphereColor = {
 gui.add(sphereScale, 'scale', {"Small": 1, "Medium":2, "Big": 3}).name("Escala").onChange(()=>{sphere.scale.set(sphereScale.scale, sphereScale.scale, sphereScale.scale)});
 
 //cambiar el color de la esfera
-gui.addColor(sphereColor, "color").name("color").onChange(() => {sphere.material.color.set(sphereColor.color)});
+gui.addColor(sphereColor, "color").name("color").onChange(() => {sphere.material.color.set(sphereColor.color)});*/
 
 
 //para agregar una luz que ilumina todo
@@ -152,9 +195,9 @@ const animate = () => {
     //cube.rotation.x = elapsedTime;
     //cube.position.y = Math.cos(elapsedTime);
 
-    sphere.rotation.y = elapsedTime;
+    /*sphere.rotation.y = elapsedTime;
     sphere.rotation.x = elapsedTime;
-    sphere.rotation.y = Math.cos(elapsedTime);
+    sphere.rotation.y = Math.cos(elapsedTime);*/
 
 
     controls.update();
